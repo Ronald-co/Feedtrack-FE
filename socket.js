@@ -5,6 +5,7 @@
    updates and feedback events
 ═══════════════════════════════════════ */
 
+
 const SOCKET_URL = 'https://guestpulse-1t6f.onrender.com'; // ← update to match API base URL when backend deploys
 
 let socket = null;
