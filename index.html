@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>GuestPulse</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<!-- ═══════════ SPLASH ═══════════ -->
+<div id="screen-splash" class="screen">
+  <div class="splash-center">
+    <div class="logo-icon"><span>G</span></div>
+    <p class="splash-name">GuestPulse</p>
+    <p class="splash-sub">Hospitality Feedback Management</p>
+  </div>
+</div>
+
+<!-- ═══════════ LOGIN ═══════════ -->
+<div id="screen-login" class="screen">
+  <div class="auth-page">
+    <div class="auth-top">
+      <div class="logo-icon sm"><span>G</span></div>
+      <p class="brand-title">GuestPulse</p>
+      <p class="brand-sub">Hospitality Feedback Management</p>
+    </div>
+    <div class="auth-body">
+      <h1 class="page-h1">Welcome back 👋</h1>
+      <p class="page-desc">Log in to your dashboard to manage complaints and feedback.</p>
+      <div class="field-group">
+        <label class="field-label">EMAIL ADDRESS</label>
+        <input type="email" id="login-email" class="field-input" placeholder="manager@yourbusiness.com" autocomplete="email"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">PASSWORD</label>
+        <div class="input-wrap">
+          <input type="password" id="login-password" class="field-input" placeholder="Enter your password" autocomplete="current-password"/>
+          <button class="eye-btn" onclick="App.togglePwd('login-password',this)" tabindex="-1">👁</button>
+        </div>
+        <div class="forgot-row">
+          <button class="link-btn" onclick="App.goTo('screen-forgot')">Forgot password?</button>
+        </div>
+      </div>
+      <div id="login-err" class="err-msg hidden"></div>
+      <button class="btn-primary" id="login-btn" onclick="App.handleLogin()">
+        <span class="btn-label">Log In</span><span class="spinner hidden"></span>
+      </button>
+      <div class="divider"><span>Don't have an account?</span></div>
+      <button class="btn-outline" onclick="App.goTo('screen-signup')">Create a free account →</button>
+      <div class="secure-note">🔒 Your data is encrypted and secure</div>
+    </div>
+    <div class="auth-wave"></div>
+  </div>
+</div>
+
+<!-- ═══════════ FORGOT PASSWORD ═══════════ -->
+<div id="screen-forgot" class="screen">
+  <div class="auth-page">
+    <div class="auth-top">
+      <div class="logo-icon sm"><span>G</span></div>
+      <p class="brand-title">GuestPulse</p>
+      <p class="brand-sub">Hospitality Feedback Management</p>
+    </div>
+    <div class="auth-body">
+      <h1 class="page-h1">Reset Password</h1>
+      <p class="page-desc">Enter your email address and we'll send you a link to reset your password.</p>
+      <div class="field-group">
+        <label class="field-label">EMAIL ADDRESS</label>
+        <input type="email" id="forgot-email" class="field-input" placeholder="manager@yourbusiness.com"/>
+      </div>
+      <div id="forgot-err" class="err-msg hidden"></div>
+      <div id="forgot-ok" class="ok-msg hidden">✓ Reset link sent — check your inbox.</div>
+      <button class="btn-primary" id="forgot-btn" onclick="App.handleForgot()">
+        <span class="btn-label">Send Reset Link</span><span class="spinner hidden"></span>
+      </button>
+      <div class="divider"><span>Remembered it?</span></div>
+      <button class="btn-outline" onclick="App.goTo('screen-login')">← Back to Login</button>
+    </div>
+    <div class="auth-wave"></div>
+  </div>
+</div>
+
+<!-- ═══════════ SIGNUP ═══════════ -->
+<div id="screen-signup" class="screen">
+  <div class="auth-page">
+    <div class="auth-top">
+      <div class="logo-icon sm"><span>G</span></div>
+      <p class="brand-title">GuestPulse</p>
+      <p class="brand-sub">Hospitality Feedback Management</p>
+    </div>
+    <div class="auth-body">
+      <h1 class="page-h1">Create your account</h1>
+      <p class="page-desc">Set up GuestPulse for your business. Free to start — takes less than 5 minutes.</p>
+      <div class="field-group">
+        <label class="field-label">FULL NAME</label>
+        <input type="text" id="su-name" class="field-input" placeholder="Your full name"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">EMAIL ADDRESS</label>
+        <input type="email" id="su-email" class="field-input" placeholder="manager@yourbusiness.com" autocomplete="email"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">PHONE NUMBER</label>
+        <input type="tel" id="su-phone" class="field-input" placeholder="+234 800 000 0000"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">PASSWORD</label>
+        <div class="input-wrap">
+          <input type="password" id="su-password" class="field-input" placeholder="Create a strong password" autocomplete="new-password"/>
+          <button class="eye-btn" onclick="App.togglePwd('su-password',this)" tabindex="-1">👁</button>
+        </div>
+        <p class="field-hint">At least 8 characters, including a number.</p>
+      </div>
+      <div id="su-err" class="err-msg hidden"></div>
+      <button class="btn-primary" id="su-btn" onclick="App.handleSignup()">
+        <span class="btn-label">Create Account & Continue →</span><span class="spinner hidden"></span>
+      </button>
+      <div class="divider"><span>Already have an account?</span></div>
+      <button class="btn-outline" onclick="App.goTo('screen-login')">Log in instead</button>
+      <p class="terms-note">By creating an account you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+    </div>
+    <div class="auth-wave"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ONBOARDING STEP 1 — BUSINESS ═══════════ -->
+<div id="screen-ob1" class="screen">
+  <div class="ob-page">
+    <div class="ob-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="ob-brand">GuestPulse</span>
+    </div>
+    <div class="ob-progress-wrap">
+      <div class="ob-step-label"><span>Step 1 of 4</span><span class="ob-pct">25%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+      <div class="ob-steps">
+        <div class="ob-step active"><div class="step-dot active"><span>1</span></div><span>Business</span></div>
+        <div class="ob-step"><div class="step-dot"><span>2</span></div><span>Staff</span></div>
+        <div class="ob-step"><div class="step-dot"><span>3</span></div><span>Alerts</span></div>
+        <div class="ob-step"><div class="step-dot"><span>4</span></div><span>QR Code</span></div>
+      </div>
+    </div>
+    <div class="ob-body">
+      <p class="ob-step-tag">STEP 1</p>
+      <h2 class="ob-title">Tell us about your business</h2>
+      <p class="ob-desc">This helps us set up your account correctly. Takes less than 2 minutes.</p>
+      <div class="field-group">
+        <label class="field-label">BUSINESS NAME</label>
+        <input type="text" id="ob-biz-name" class="field-input" placeholder="e.g. Grand Hotel Lagos"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">BUSINESS TYPE</label>
+        <div class="select-wrap">
+          <select id="ob-biz-type" class="field-select">
+            <option value="" disabled selected>Select type</option>
+            <option>Hotel</option>
+            <option>Restaurant</option>
+            <option>Lounge / Bar</option>
+            <option>Fast Food</option>
+            <option>Spa / Wellness</option>
+            <option>Guest House</option>
+            <option>Event Centre</option>
+            <option>Café</option>
+            <option>Other</option>
+          </select>
+          <span class="sel-arrow">▾</span>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">YOUR NAME</label>
+        <input type="text" id="ob-owner-name" class="field-input" placeholder="Name"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">YOUR ROLE</label>
+        <div class="select-wrap">
+          <select id="ob-role" class="field-select">
+            <option value="" disabled selected>Select role</option>
+            <option>Owner</option>
+            <option>Manager</option>
+            <option>General Manager</option>
+            <option>Operations Lead</option>
+            <option>Other</option>
+          </select>
+          <span class="sel-arrow">▾</span>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">BUSINESS LOCATION</label>
+        <input type="text" id="ob-location" class="field-input" placeholder="e.g. Lagos, Nigeria"/>
+      </div>
+      <div class="info-box green">
+        <p class="info-box-title">✅ After setup you will have:</p>
+        <p>• Your unique QR code ready to print</p>
+        <p>• A number guests can WhatsApp feedback to</p>
+        <p>• Real-time complaint alerts on your phone</p>
+      </div>
+      <div id="ob1-err" class="err-msg hidden"></div>
+    </div>
+    <div class="ob-footer">
+      <button class="btn-primary" onclick="App.handleOb1()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ONBOARDING STEP 2 — STAFF ═══════════ -->
+<div id="screen-ob2" class="screen">
+  <div class="ob-page">
+    <div class="ob-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="ob-brand">GuestPulse</span>
+    </div>
+    <div class="ob-progress-wrap">
+      <div class="ob-step-label"><span>Step 2 of 4</span><span class="ob-pct">50%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+      <div class="ob-steps">
+        <div class="ob-step done"><div class="step-dot done"><span>✓</span></div><span>Business</span></div>
+        <div class="ob-step active"><div class="step-dot active"><span>2</span></div><span>Staff</span></div>
+        <div class="ob-step"><div class="step-dot"><span>3</span></div><span>Alerts</span></div>
+        <div class="ob-step"><div class="step-dot"><span>4</span></div><span>QR Code</span></div>
+      </div>
+    </div>
+    <div class="ob-body">
+      <p class="ob-step-tag">STEP 2</p>
+      <h2 class="ob-title">Add your staff</h2>
+      <p class="ob-desc">Tag staff members to complaints so you can track who is linked to recurring issues.</p>
+      <div class="info-box blue">
+        <p class="info-box-title">ℹ️ Why add staff?</p>
+        <p>When a guest complains about a specific staff member, you can tag them on the complaint. This builds a performance record over time.</p>
+      </div>
+      <div id="staff-list"></div>
+      <div class="add-staff-box">
+        <p class="add-staff-title">+ ADD A STAFF MEMBER</p>
+        <div class="field-group">
+          <label class="field-label">FULL NAME</label>
+          <input type="text" id="staff-name-input" class="field-input" placeholder="Staff member's name"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">ROLE</label>
+          <div class="select-wrap">
+            <select id="staff-role-input" class="field-select">
+              <option value="" disabled selected>Select role...</option>
+              <option>Front Desk</option>
+              <option>Waiter</option>
+              <option>Housekeeping</option>
+              <option>Security</option>
+              <option>Chef</option>
+              <option>Manager</option>
+              <option>Bartender</option>
+              <option>Driver</option>
+              <option>Other</option>
+            </select>
+            <span class="sel-arrow">▾</span>
+          </div>
+        </div>
+        <button class="btn-outline-dashed" onclick="App.addStaffMember()">+ Add Staff Member</button>
+      </div>
+      <div id="ob2-err" class="err-msg hidden"></div>
+    </div>
+    <div class="ob-footer">
+      <button class="btn-primary" onclick="App.handleOb2()">Continue →</button>
+      <button class="skip-btn" onclick="App.goTo('screen-ob3')">Skip — I'll add staff later</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ONBOARDING STEP 3 — ALERTS ═══════════ -->
+<div id="screen-ob3" class="screen">
+  <div class="ob-page">
+    <div class="ob-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="ob-brand">GuestPulse</span>
+    </div>
+    <div class="ob-progress-wrap">
+      <div class="ob-step-label"><span>Step 3 of 4</span><span class="ob-pct">75%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+      <div class="ob-steps">
+        <div class="ob-step done"><div class="step-dot done"><span>✓</span></div><span>Business</span></div>
+        <div class="ob-step done"><div class="step-dot done"><span>✓</span></div><span>Staff</span></div>
+        <div class="ob-step active"><div class="step-dot active"><span>3</span></div><span>Alerts</span></div>
+        <div class="ob-step"><div class="step-dot"><span>4</span></div><span>QR Code</span></div>
+      </div>
+    </div>
+    <div class="ob-body">
+      <p class="ob-step-tag">STEP 3</p>
+      <h2 class="ob-title">Set up your alerts</h2>
+      <p class="ob-desc">Choose how and when you want to be notified when a complaint comes in.</p>
+      <div class="field-group">
+        <label class="field-label">WHATSAPP ALERT NUMBER</label>
+        <input type="tel" id="alert-phone" class="field-input" placeholder="+234 812 345 6789"/>
+        <p class="field-hint">Complaint alerts will be sent to this number via WhatsApp.</p>
+      </div>
+      <label class="field-label" style="margin-bottom:8px;">ALERT ME WHEN A COMPLAINT IS RECEIVED FOR:</label>
+      <div class="toggle-list">
+        <div class="toggle-item" onclick="App.toggleAlert('alert-staff')" style="cursor:pointer;">
+          <div class="toggle-info">
+            <p class="toggle-title">Staff complaints</p>
+            <p class="toggle-desc">Guest complains about a staff member</p>
+          </div>
+          <div class="diy-toggle" id="diy-alert-staff"><div class="diy-knob"></div></div>
+          <input type="checkbox" id="alert-staff" style="display:none;"/>
+        </div>
+        <div class="toggle-item" onclick="App.toggleAlert('alert-food')" style="cursor:pointer;">
+          <div class="toggle-info">
+            <p class="toggle-title">Food complaints</p>
+            <p class="toggle-desc">Guest complains about food quality</p>
+          </div>
+          <div class="diy-toggle" id="diy-alert-food"><div class="diy-knob"></div></div>
+          <input type="checkbox" id="alert-food" style="display:none;"/>
+        </div>
+        <div class="toggle-item" onclick="App.toggleAlert('alert-service')" style="cursor:pointer;">
+          <div class="toggle-info">
+            <p class="toggle-title">Service complaints</p>
+            <p class="toggle-desc">Guest complains about service speed or quality</p>
+          </div>
+          <div class="diy-toggle" id="diy-alert-service"><div class="diy-knob"></div></div>
+          <input type="checkbox" id="alert-service" style="display:none;"/>
+        </div>
+        <div class="toggle-item" onclick="App.toggleAlert('alert-maintenance')" style="cursor:pointer;">
+          <div class="toggle-info">
+            <p class="toggle-title">Maintenance complaints</p>
+            <p class="toggle-desc">Guest reports a facility issue</p>
+          </div>
+          <div class="diy-toggle" id="diy-alert-maintenance"><div class="diy-knob"></div></div>
+          <input type="checkbox" id="alert-maintenance" style="display:none;"/>
+        </div>
+        <div class="toggle-item" onclick="App.toggleAlert('alert-other')" style="cursor:pointer;">
+          <div class="toggle-info">
+            <p class="toggle-title">All other complaints</p>
+            <p class="toggle-desc">Any complaint not in the above categories</p>
+          </div>
+          <div class="diy-toggle" id="diy-alert-other"><div class="diy-knob"></div></div>
+          <input type="checkbox" id="alert-other" style="display:none;"/>
+        </div>
+      </div>
+      <label class="field-label" style="margin:16px 0 8px;">ALSO NOTIFY ME FOR:</label>
+      <div class="toggle-list">
+        <div class="toggle-item" onclick="App.toggleAlert('alert-overdue')" style="cursor:pointer;">
+          <div class="toggle-info">
+            <p class="toggle-title">Overdue complaints</p>
+            <p class="toggle-desc">Remind me if a complaint is unresolved after 24 hours</p>
+          </div>
+          <div class="diy-toggle" id="diy-alert-overdue"><div class="diy-knob"></div></div>
+          <input type="checkbox" id="alert-overdue" style="display:none;"/>
+        </div>
+      </div>
+      <div class="info-box yellow">
+        <p class="info-box-title">💡 Tip</p>
+        <p>You can change these preferences any time in Settings. We recommend turning on all categories for your first week.</p>
+      </div>
+    </div>
+    <div class="ob-footer">
+      <button class="btn-primary" onclick="App.goTo('screen-ob4')">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ONBOARDING STEP 4 — QR CODE ═══════════ -->
+<div id="screen-ob4" class="screen">
+  <div class="ob-page">
+    <div class="ob-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="ob-brand">GuestPulse</span>
+    </div>
+    <div class="ob-progress-wrap">
+      <div class="ob-step-label"><span>Step 4 of 4</span><span class="ob-pct">100%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      <div class="ob-steps">
+        <div class="ob-step done"><div class="step-dot done"><span>✓</span></div><span>Business</span></div>
+        <div class="ob-step done"><div class="step-dot done"><span>✓</span></div><span>Staff</span></div>
+        <div class="ob-step done"><div class="step-dot done"><span>✓</span></div><span>Alerts</span></div>
+        <div class="ob-step active"><div class="step-dot active"><span>4</span></div><span>QR Code</span></div>
+      </div>
+    </div>
+    <div class="ob-body">
+      <p class="ob-step-tag">STEP 4 — FINAL STEP</p>
+      <h2 class="ob-title">You're all set! 🎉</h2>
+      <p class="ob-desc">Your GuestPulse account is ready. Here is your unique QR code and WhatsApp number for collecting guest feedback.</p>
+      <div class="info-box green" style="margin-bottom:16px;">
+        <p>☑️ <strong>Setup complete — you can now receive your first complaint</strong></p>
+      </div>
+      <div class="qr-card">
+        <div id="qr-code-box"></div>
+        <p class="qr-biz-name" id="qr-biz-label">Your Business</p>
+        <p class="qr-scan-hint">Scan to leave feedback</p>
+      </div>
+      <div id="qr-url-warning" style="display:none;background:#FFF4EA;color:#7a4400;font-size:13px;padding:12px 14px;border-radius:10px;border-left:3px solid #e67e22;margin-top:12px;line-height:1.5;"></div>
+      <div id="qr-url-box" style="margin-top:10px;background:#f1f5f9;border-radius:10px;padding:10px 14px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.07em;color:#64748b;margin-bottom:5px;">QR CODE POINTS TO:</p>
+        <p id="qr-url-preview" style="font-size:12px;color:#1B2D5B;word-break:break-all;font-family:monospace;line-height:1.5;"></p>
+      </div>
+      <div class="wa-card">
+        <div class="wa-icon">💬</div>
+        <div>
+          <p class="wa-label">Your guest feedback WhatsApp number</p>
+          <p class="wa-number">+234 700 GUESTPULSE</p>
+        </div>
+      </div>
+      <button class="btn-outline" style="margin-top:12px;" onclick="App.downloadQR()">⬇️ Download & Print QR Code</button>
+      <div class="info-box plain" style="margin-top:16px;">
+        <p class="info-box-title">📍 Where to place your QR code</p>
+        <p>Front desk reception · Restaurant tables · Room key cards · Receipts & bills · Hotel lobby notice board</p>
+      </div>
+    </div>
+    <div class="ob-footer">
+      <button class="btn-primary green-btn" onclick="App.goToDashboard()">Go to Dashboard →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FEEDBACK FORM (Guest view — QR scan) ═══════════ -->
+<div id="screen-feedback" class="screen">
+  <div class="ob-page">
+    <div class="ob-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="ob-brand">GuestPulse</span>
+    </div>
+    <div class="ob-body" style="padding-top:24px;">
+      <div class="feedback-biz-tag">
+        <span>📍</span> <span id="fb-biz-name">Business Name</span>
+      </div>
+      <h2 class="feedback-title">We value your feedback</h2>
+      <p class="feedback-desc">Help us improve your experience. Takes less than a minute.</p>
+      <p class="field-label" style="margin:20px 0 10px;">What type of feedback would you like to share?</p>
+      <div class="feedback-types">
+        <button class="fb-type-btn active" data-type="complaint" onclick="App.selectFbType(this,'complaint')">
+          <span class="fb-emoji">😤</span>
+          <span>Complaint</span>
+        </button>
+        <button class="fb-type-btn" data-type="compliment" onclick="App.selectFbType(this,'compliment')">
+          <span class="fb-emoji">😊</span>
+          <span>Compliment</span>
+        </button>
+        <button class="fb-type-btn" data-type="suggestion" onclick="App.selectFbType(this,'suggestion')">
+          <span class="fb-emoji">💡</span>
+          <span>Suggestion</span>
+        </button>
+      </div>
+      <div class="field-group" style="margin-top:20px;">
+        <label class="field-label">TELL US WHAT HAPPENED</label>
+        <textarea id="fb-message" class="field-textarea" placeholder="Please describe what happened or share your feedback. Your input helps us serve you better." rows="5"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">YOUR NAME (OPTIONAL)</label>
+        <input type="text" id="fb-guest-name" class="field-input" placeholder="e.g. Michael A."/>
+      </div>
+      <div id="fb-err" class="err-msg hidden"></div>
+      <button class="btn-primary" id="fb-submit-btn" style="margin-top:8px;" onclick="App.submitFeedback()">
+        <span class="btn-label">Submit Feedback</span><span class="spinner hidden"></span>
+      </button>
+    </div>
+    <div class="auth-wave"></div>
+  </div>
+</div>
+
+<!-- ═══════════ FEEDBACK CONFIRMATION ═══════════ -->
+<div id="screen-feedback-done" class="screen">
+  <div class="ob-page">
+    <div class="ob-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="ob-brand">GuestPulse</span>
+    </div>
+    <div class="confirm-body">
+      <div class="confirm-icon-wrap">
+        <div class="confirm-icon">☑️</div>
+      </div>
+      <h2 class="confirm-title">Feedback Sent!</h2>
+      <div class="confirm-divider"></div>
+      <p class="confirm-desc">Thank you for taking the time to share your experience with us. Your feedback has been received by our management team.</p>
+      <div class="info-box blue" style="text-align:left;">
+        <p class="info-box-title">📋 What happens next?</p>
+        <p>Our team has been notified and will review your feedback shortly. If your complaint requires a follow-up, we will reach out to you as soon as possible.</p>
+      </div>
+      <button class="btn-outline" style="margin-top:24px;" onclick="App.goTo('screen-feedback')">← Back to Form</button>
+    </div>
+    <div class="auth-wave"></div>
+  </div>
+</div>
+
+<!-- ═══════════ DASHBOARD ═══════════ -->
+<div id="screen-dashboard" class="screen">
+  <div class="app-page">
+    <div class="app-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="app-brand">GuestPulse</span>
+      <nav class="app-nav">
+        <button class="nav-link active" data-screen="screen-dashboard" onclick="App.goTo('screen-dashboard')">Dashboard</button>
+        <button class="nav-link" data-screen="screen-analytics" onclick="App.goTo('screen-analytics')">Analytics</button>
+        <button class="nav-link" data-screen="screen-staff" onclick="App.goToStaffScreen()">Staff</button>
+        <button class="nav-link" data-screen="screen-settings" onclick="App.goTo('screen-settings')">Settings</button>
+      </nav>
+    </div>
+    <div class="app-body">
+      <!--<div class="dash-header">
+        <h1 class="dash-title">Complaints</h1>
+        <p class="dash-date" id="dash-date"></p>
+      </div>
+      <div class="stats-row" id="dash-stats">
+        <div class="stat-card"><span class="stat-num navy" id="stat-total">—</span><span class="stat-lbl">Total</span></div>
+        <div class="stat-card"><span class="stat-num orange" id="stat-open">—</span><span class="stat-lbl">Open</span></div>
+        <div class="stat-card"><span class="stat-num purple" id="stat-progress">—</span><span class="stat-lbl">Progress</span></div>
+        <div class="stat-card"><span class="stat-num green" id="stat-resolved">—</span><span class="stat-lbl">Resolved</span></div>
+      </div>
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" class="search-input" placeholder="Search complaints..." oninput="App.filterComplaints()"/>
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all" onclick="App.setFilter('all',this)">All</button>
+        <button class="filter-tab" data-filter="open" onclick="App.setFilter('open',this)">Open</button>
+        <button class="filter-tab" data-filter="in-progress" onclick="App.setFilter('in-progress',this)">In Progress</button>
+        <button class="filter-tab" data-filter="resolved" onclick="App.setFilter('resolved',this)">Resolved</button>
+      </div> -->
+
+      <div class="dash-header">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h1 class="dash-title" id="dash-feed-title">Complaints</h1>
+      <p class="dash-date" id="dash-date"></p>
+    </div>
+    <!-- Dropdown to switch between feedback types -->
+    <div class="select-wrap" style="width:160px;">
+      <select id="feed-type-select" class="field-select" onchange="App.switchFeedType(this.value)" style="font-size:13px;padding:8px 12px;">
+        <option value="complaints">😤 Complaints</option>
+        <option value="compliments">😊 Compliments</option>
+        <option value="suggestions">💡 Suggestions</option>
+      </select>
+      <span class="sel-arrow">▾</span>
+    </div>
+  </div>
+</div>
+<div class="stats-row" id="dash-stats">
+  <div class="stat-card"><span class="stat-num navy" id="stat-total">—</span><span class="stat-lbl">Total</span></div>
+  <div class="stat-card"><span class="stat-num orange" id="stat-open">—</span><span class="stat-lbl">Open</span></div>
+  <div class="stat-card"><span class="stat-num purple" id="stat-progress">—</span><span class="stat-lbl">Progress</span></div>
+  <div class="stat-card"><span class="stat-num green" id="stat-resolved">—</span><span class="stat-lbl">Resolved</span></div>
+</div>
+<div class="search-box">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="search-input" class="search-input" placeholder="Search feedback..." oninput="App.filterComplaints()"/>
+</div>
+<div class="filter-tabs" id="complaint-filter-tabs">
+  <button class="filter-tab active" data-filter="all" onclick="App.setFilter('all',this)">All</button>
+  <button class="filter-tab" data-filter="open" onclick="App.setFilter('open',this)">Open</button>
+  <button class="filter-tab" data-filter="in-progress" onclick="App.setFilter('in-progress',this)">In Progress</button>
+  <button class="filter-tab" data-filter="resolved" onclick="App.setFilter('resolved',this)">Resolved</button>
+</div>
+
+<div id="complaints-list" class="complaints-list"></div>
+      <div id="complaints-list" class="complaints-list">
+       <!-- <div class="empty-state">
+          <p class="empty-icon">📭</p>
+          <p class="empty-title">No complaints yet</p>
+          <p class="empty-desc">When guests scan your QR code and submit feedback, complaints will appear here.</p>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ COMPLAINT DETAILS ═══════════ -->
+<div id="screen-complaint-detail" class="screen">
+  <div class="app-page detail-page">
+    <div class="detail-topbar">
+      <button class="back-link" onclick="App.goTo('screen-dashboard')">← Back to Dashboard</button>
+    </div>
+    <div class="detail-header">
+      <h1 class="detail-title">Complaint Details</h1>
+      <div class="detail-tags" id="detail-tags"></div>
+    </div>
+    <div class="app-body" style="padding-top:16px;">
+      <div class="detail-card">
+        <p class="detail-section-label">COMPLAINT INFORMATION</p>
+        <div class="detail-row"><span class="dr-key">Received via</span><span class="dr-val" id="d-via">—</span></div>
+        <div class="detail-row"><span class="dr-key">Submitted</span><span class="dr-val" id="d-submitted">—</span></div>
+        <div class="detail-row"><span class="dr-key">Guest name</span><span class="dr-val" id="d-guest">—</span></div>
+      </div>
+      <div class="detail-card">
+        <p class="detail-section-label">GUEST FEEDBACK</p>
+        <blockquote class="feedback-quote" id="d-message">—</blockquote>
+      </div>
+      <div class="detail-card" id="assign-section">
+        <p class="detail-section-label">ASSIGN STAFF</p>
+        <div class="select-wrap">
+          <select id="assign-staff-sel" class="field-select">
+            <option value="" disabled selected>Select staff member...</option>
+          </select>
+          <span class="sel-arrow">▾</span>
+        </div>
+        <button class="btn-primary" style="margin-top:10px;font-size:14px;padding:10px 16px;" onclick="App.assignStaff()">
+          <span class="btn-label">Assign Staff</span><span class="spinner hidden"></span>
+        </button>
+      </div>
+      <div class="detail-card">
+        <p class="detail-section-label">UPDATE STATUS</p>
+        <div class="status-btns">
+          <button class="status-btn" data-s="open" onclick="App.updateStatus('open',this)">Open</button>
+          <button class="status-btn" data-s="in-progress" onclick="App.updateStatus('in-progress',this)">In Progress</button>
+          <button class="status-btn" data-s="resolved" onclick="App.updateStatus('resolved',this)">Resolved</button>
+        </div>
+      </div>
+      <div class="detail-card">
+        <p class="detail-section-label">INTERNAL NOTE (STAFF ONLY)</p>
+        <textarea id="resolve-notes" class="field-textarea" placeholder="Add a note about actions taken..." rows="3"></textarea>
+        <button class="btn-outline" style="margin-top:10px;font-size:14px;padding:10px 16px;" onclick="App.saveNote()">Save Note</button>
+      </div>
+      <div id="detail-msg" class="ok-msg hidden" style="margin-top:8px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ANALYTICS ═══════════ -->
+<div id="screen-analytics" class="screen">
+  <div class="app-page">
+    <div class="app-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="app-brand">GuestPulse</span>
+      <nav class="app-nav">
+        <button class="nav-link" data-screen="screen-dashboard" onclick="App.goTo('screen-dashboard')">Dashboard</button>
+        <button class="nav-link active" data-screen="screen-analytics" onclick="App.goTo('screen-analytics')">Analytics</button>
+        <button class="nav-link" data-screen="screen-staff" onclick="App.goToStaffScreen()">Staff</button>
+        <button class="nav-link" data-screen="screen-settings" onclick="App.goTo('screen-settings')">Settings</button>
+      </nav>
+    </div>
+    <div class="app-body">
+      <div class="dash-header">
+        <h1 class="dash-title">Analytics</h1>
+        <p class="dash-date">Complaint trends &amp; insights</p>
+      </div>
+      <div class="filter-tabs" style="margin-bottom:20px;">
+        <!--
+        <button class="filter-tab" data-afilter="today" onclick="App.setAnalyticsFilter('today',this)">Today</button>
+        <button class="filter-tab active" data-afilter="week" onclick="App.setAnalyticsFilter('week',this)">This Week</button>
+        <button class="filter-tab" data-afilter="month" onclick="App.setAnalyticsFilter('month',this)">This Month</button>
+        <button class="filter-tab" data-afilter="all" onclick="App.setAnalyticsFilter('all',this)">All Time</button>
+        -->
+
+       <button class="filter-tab" data-afilter="today" onclick="App.setAnalyticsFilter('today',this)">Today</button>
+       <button class="filter-tab active" data-afilter="week" onclick="App.setAnalyticsFilter('week',this)">This Week</button>
+       <button class="filter-tab" data-afilter="month" onclick="App.setAnalyticsFilter('month',this)">This Month</button>
+       <button class="filter-tab" data-afilter="all" onclick="App.setAnalyticsFilter('all',this)">All Time</button>
+      </div>
+      <div class="analytics-grid">
+        <div class="analytics-card">
+          <p class="ac-label">TOTAL COMPLAINTS</p>
+          <p class="ac-num" id="a-total">—</p>
+          <p class="ac-sub" id="a-total-sub" style="color:#e67e22;">—</p>
+        </div>
+        <div class="analytics-card">
+          <p class="ac-label">RESOLUTION RATE</p>
+          <p class="ac-num" id="a-rate">—</p>
+          <p class="ac-sub" id="a-rate-sub" style="color:#27ae60;">—</p>
+        </div>
+        <div class="analytics-card">
+          <p class="ac-label">AVG RESPONSE</p>
+          <p class="ac-num" id="a-avg">—</p>
+          <p class="ac-sub" id="a-avg-sub" style="color:#27ae60;">—</p>
+        </div>
+        <div class="analytics-card">
+          <p class="ac-label">OVERDUE</p>
+          <p class="ac-num" id="a-overdue">—</p>
+          <p class="ac-sub" id="a-overdue-sub" style="color:#e74c3c;">—</p>
+        </div>
+      </div>
+      <div class="detail-card" style="margin-top:16px;">
+        <p class="detail-section-label" style="margin-bottom:14px;">Complaints by Category</p>
+        <div id="category-bars" class="category-bars">
+          <div class="empty-state" style="padding:16px 0;"><p class="empty-desc">No data yet</p></div>
+        </div>
+      </div>
+      <div class="detail-card" style="margin-top:16px;">
+        <p class="detail-section-label" style="margin-bottom:14px;">Resolution Rate This Week</p>
+        <div class="resolution-bar-wrap">
+          <div class="resolution-bar"><div class="resolution-fill" id="res-fill" style="width:0%"><span id="res-pct-label">0%</span></div></div>
+          <div class="resolution-labels">
+            <span>0%</span>
+            <span id="res-mid-label">— of — resolved</span>
+            <span>100%</span>
+          </div>
+        </div>
+      </div>
+      <div class="detail-card" style="margin-top:16px;">
+        <p class="detail-section-label" style="margin-bottom:14px;">Staff Complaint Count</p>
+        <div id="staff-complaint-list">
+          <div class="empty-state" style="padding:16px 0;"><p class="empty-desc">No staff data yet</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════ SETTINGS ═══════════ -->
+<div id="screen-settings" class="screen">
+  <div class="app-page">
+    <div class="app-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="app-brand">GuestPulse</span>
+      <nav class="app-nav">
+        <button class="nav-link" data-screen="screen-dashboard" onclick="App.goTo('screen-dashboard')">Dashboard</button>
+        <button class="nav-link" data-screen="screen-analytics" onclick="App.goTo('screen-analytics')">Analytics</button>
+        <button class="nav-link" data-screen="screen-staff" onclick="App.goToStaffScreen()">Staff</button>
+        <button class="nav-link active" data-screen="screen-settings" onclick="App.goTo('screen-settings')">Settings</button>
+      </nav>
+    </div>
+    <div class="app-body">
+      <div class="dash-header">
+        <h1 class="dash-title">Settings</h1>
+        <p class="dash-date">Manage your team and preferences</p>
+      </div>
+
+      <!-- Staff Management -->
+      <div class="detail-card">
+        <p class="detail-section-label" style="margin-bottom:14px;">👥 Staff Members</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Add or remove staff members who can be assigned to complaints.</p>
+        <div id="settings-staff-list"></div>
+        <div class="add-staff-box" style="margin-top:12px;">
+          <p class="add-staff-title">+ ADD A STAFF MEMBER</p>
+          <div class="field-group">
+            <label class="field-label">FULL NAME</label>
+            <input type="text" id="settings-staff-name" class="field-input" placeholder="Staff member's name"/>
+          </div>
+          <div class="field-group">
+            <label class="field-label">ROLE</label>
+            <div class="select-wrap">
+              <select id="settings-staff-role" class="field-select">
+                <option value="" disabled selected>Select role...</option>
+                <option>Front Desk</option>
+                <option>Waiter</option>
+                <option>Housekeeping</option>
+                <option>Security</option>
+                <option>Chef</option>
+                <option>Manager</option>
+                <option>Bartender</option>
+                <option>Driver</option>
+                <option>Other</option>
+              </select>
+              <span class="sel-arrow">▾</span>
+            </div>
+          </div>
+          <div id="settings-staff-err" class="err-msg hidden"></div>
+          <button class="btn-outline-dashed" onclick="App.addStaffFromSettings()">+ Add Staff Member</button>
+        </div>
+      </div>
+
+      <!-- Alert Preferences -->
+      <div class="detail-card" style="margin-top:12px;">
+        <p class="detail-section-label" style="margin-bottom:6px;">🔔 Alert Preferences</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Choose how and when you want to be notified when a complaint comes in.</p>
+        <div class="toggle-list">
+          <div class="toggle-item" onclick="App.toggleAlert('s-alert-staff')" style="cursor:pointer;">
+            <div class="toggle-info"><p class="toggle-title">Staff complaints</p><p class="toggle-desc">Guest complains about a staff member</p></div>
+            <div class="diy-toggle" id="diy-s-alert-staff"><div class="diy-knob"></div></div>
+            <input type="checkbox" id="s-alert-staff" style="display:none;"/>
+          </div>
+          <div class="toggle-item" onclick="App.toggleAlert('s-alert-food')" style="cursor:pointer;">
+            <div class="toggle-info"><p class="toggle-title">Food complaints</p><p class="toggle-desc">Guest complains about food quality</p></div>
+            <div class="diy-toggle" id="diy-s-alert-food"><div class="diy-knob"></div></div>
+            <input type="checkbox" id="s-alert-food" style="display:none;"/>
+          </div>
+          <div class="toggle-item" onclick="App.toggleAlert('s-alert-service')" style="cursor:pointer;">
+            <div class="toggle-info"><p class="toggle-title">Service complaints</p><p class="toggle-desc">Guest complains about service speed or quality</p></div>
+            <div class="diy-toggle" id="diy-s-alert-service"><div class="diy-knob"></div></div>
+            <input type="checkbox" id="s-alert-service" style="display:none;"/>
+          </div>
+          <div class="toggle-item" onclick="App.toggleAlert('s-alert-maintenance')" style="cursor:pointer;">
+            <div class="toggle-info"><p class="toggle-title">Maintenance complaints</p><p class="toggle-desc">Guest reports a facility issue</p></div>
+            <div class="diy-toggle" id="diy-s-alert-maintenance"><div class="diy-knob"></div></div>
+            <input type="checkbox" id="s-alert-maintenance" style="display:none;"/>
+          </div>
+          <div class="toggle-item" onclick="App.toggleAlert('s-alert-other')" style="cursor:pointer;">
+            <div class="toggle-info"><p class="toggle-title">All other complaints</p><p class="toggle-desc">Any complaint not in the above categories</p></div>
+            <div class="diy-toggle" id="diy-s-alert-other"><div class="diy-knob"></div></div>
+            <input type="checkbox" id="s-alert-other" style="display:none;"/>
+          </div>
+          <div class="toggle-item" onclick="App.toggleAlert('s-alert-overdue')" style="cursor:pointer;">
+            <div class="toggle-info"><p class="toggle-title">Overdue complaints</p><p class="toggle-desc">Remind me if a complaint is unresolved after 24 hours</p></div>
+            <div class="diy-toggle" id="diy-s-alert-overdue"><div class="diy-knob"></div></div>
+            <input type="checkbox" id="s-alert-overdue" style="display:none;"/>
+          </div>
+        </div>
+        <div class="info-box yellow" style="margin-top:14px;">
+          <p class="info-box-title">💡 Tip</p>
+          <p>You can change these preferences any time here. We recommend turning on all categories for your first week.</p>
+        </div>
+      </div>
+
+      <!-- QR Code -->
+      <div class="detail-card" style="margin-top:12px;">
+        <p class="detail-section-label" style="margin-bottom:6px;">📱 Your QR Code</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Download and print your QR code to collect guest feedback.</p>
+        <div class="qr-card" style="margin-bottom:12px;">
+          <div id="settings-qr-box"></div>
+          <p class="qr-biz-name" id="settings-qr-biz-name">Your Business</p>
+          <p class="qr-scan-hint">Scan to leave feedback</p>
+        </div>
+        <button class="btn-outline" onclick="App.downloadSettingsQR()">⬇️ Download & Print QR Code</button>
+      </div>
+
+      <!-- Logout Button -->
+      <div class="detail-card" style="margin-top:12px; margin-bottom:24px;">
+        <button class="settings-logout-btn" onclick="App.showLogoutModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          LOGOUT
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ RESET PASSWORD ═══════════ -->
+<div id="screen-reset-password" class="screen">
+  <div class="auth-page">
+    <div class="auth-top">
+      <div class="logo-icon sm">
+        <span>G</span>
+      </div>
+      <p class="brand-title">GuestPulse</p>
+      <p class="brand-sub">Business feedback, simplified</p>
+    </div>
+
+    <div class="auth-body">
+      <div class="forgot-icon-wrap">
+        <span style="font-size:40px;">🔐</span>
+      </div>
+      <h1 class="page-h1">Set new password</h1>
+      <p class="page-desc">Choose a strong password for your account. It must be at least 8 characters.</p>
+
+      <div class="field-group">
+        <label class="field-label">New Password</label>
+        <div class="input-wrap">
+          <input type="password" id="reset-password-input" class="field-input" placeholder="Min. 8 characters" />
+          <button class="eye-btn" onclick="App.togglePwd('reset-password-input', this)">👁</button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Confirm Password</label>
+        <div class="input-wrap">
+          <input type="password" id="reset-confirm-input" class="field-input" placeholder="Repeat your password" />
+          <button class="eye-btn" onclick="App.togglePwd('reset-confirm-input', this)">👁</button>
+        </div>
+      </div>
+
+      <p id="reset-err" class="err-msg hidden"></p>
+      <p id="reset-ok"  class="ok-msg hidden"></p>
+
+      <button id="reset-btn" class="btn-primary" onclick="App.handleResetPassword()">
+        <span class="btn-label">Update password</span>
+        <span class="spinner hidden"></span>
+      </button>
+
+      <div class="secure-note" style="margin-top:16px;">
+        🔒 Your password is encrypted and never stored in plain text.
+      </div>
+    </div>
+
+    <div class="auth-wave"></div>
+  </div>
+</div>
+
+
+<!-- ═══════════ STAFF SCREEN ═══════════ -->
+<div id="screen-staff" class="screen">
+  <div class="app-page">
+    <div class="app-topbar">
+      <div class="logo-icon xs"><span>G</span></div>
+      <span class="app-brand">GuestPulse</span>
+      <nav class="app-nav">
+        <button class="nav-link" data-screen="screen-dashboard" onclick="App.goTo('screen-dashboard')">Dashboard</button>
+        <button class="nav-link" data-screen="screen-analytics" onclick="App.goTo('screen-analytics')">Analytics</button>
+        <button class="nav-link active" data-screen="screen-staff" onclick="App.goToStaffScreen()">Staff</button>
+        <button class="nav-link" data-screen="screen-settings" onclick="App.goTo('screen-settings')">Settings</button>
+      </nav>
+    </div>
+    <div class="app-body">
+
+      <!-- Header -->
+      <div class="dash-header">
+        <h1 class="dash-title">Staff</h1>
+        <p class="dash-date">Manage your team members</p>
+      </div>
+
+      <!-- Stats row -->
+      <div class="staff-screen-stats">
+        <div class="stat-card">
+          <span class="stat-num navy" id="ss-total">—</span>
+          <span class="stat-lbl">Total Staff</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num orange" id="ss-complaints">—</span>
+          <span class="stat-lbl">Complaints</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" style="color:var(--purple);font-size:14px;font-weight:800;" id="ss-top-role">—</span>
+          <span class="stat-lbl">Top Role</span>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="staff-screen-search" class="search-input"
+               placeholder="Search staff name or role…"
+               oninput="App.searchStaffScreen()"/>
+      </div>
+
+      <!-- Role filter tabs -->
+      <div class="filter-tabs" id="staff-screen-filter-tabs">
+        <button class="filter-tab active" data-role="all"
+                onclick="App.setStaffRoleFilter('all', this)">All</button>
+        <button class="filter-tab" data-role="manager"
+                onclick="App.setStaffRoleFilter('manager', this)">Managers</button>
+        <button class="filter-tab" data-role="waiter"
+                onclick="App.setStaffRoleFilter('waiter', this)">Waiters</button>
+        <button class="filter-tab" data-role="chef"
+                onclick="App.setStaffRoleFilter('chef', this)">Chefs</button>
+        <button class="filter-tab" data-role="front desk"
+                onclick="App.setStaffRoleFilter('front desk', this)">Front Desk</button>
+        <button class="filter-tab" data-role="housekeeping"
+                onclick="App.setStaffRoleFilter('housekeeping', this)">Housekeeping</button>
+      </div>
+
+      <!-- Error / success messages -->
+      <div id="staff-screen-err" class="err-msg hidden"></div>
+
+      <!-- Staff list -->
+      <div id="staff-screen-list"></div>
+
+      <!-- Add staff box -->
+      <div class="staff-add-box">
+        <p class="staff-add-box-title">+ Add Staff Member</p>
+        <div class="field-group">
+          <label class="field-label">FULL NAME</label>
+          <input type="text" id="ss-staff-name" class="field-input"
+                 placeholder="Staff member's name"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">ROLE</label>
+          <div class="select-wrap">
+            <select id="ss-staff-role" class="field-select">
+              <option value="" disabled selected>Select role…</option>
+              <option>Front Desk</option>
+              <option>Waiter</option>
+              <option>Housekeeping</option>
+              <option>Security</option>
+              <option>Chef</option>
+              <option>Manager</option>
+              <option>Bartender</option>
+              <option>Driver</option>
+              <option>Other</option>
+            </select>
+            <span class="sel-arrow">▾</span>
+          </div>
+        </div>
+        <button id="ss-add-btn" class="btn-primary" onclick="App.addStaffFromScreen()">
+          + Add Staff Member
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ STAFF DETAIL ═══════════ -->
+<div id="screen-staff-detail" class="screen">
+  <div class="app-page detail-page">
+
+    <!-- Back bar -->
+    <div class="detail-topbar">
+      <button class="back-link" onclick="App.goToStaffScreen()">← Back to Staff</button>
+    </div>
+
+    <!-- Hero header -->
+    <div class="sd-hero" id="sd-hero">
+      <div class="sd-hero-inner">
+        <div class="sd-avatar" id="sd-avatar"></div>
+        <div class="sd-hero-info">
+          <h1 class="sd-name" id="sd-name">—</h1>
+          <p class="sd-meta" id="sd-meta">—</p>
+        </div>
+      </div>
+      <div class="sd-badges" id="sd-badges"></div>
+    </div>
+
+    <div class="app-body" style="padding-top:16px;">
+
+      <!-- Performance overview -->
+      <div class="detail-card">
+        <p class="detail-section-label">PERFORMANCE OVERVIEW — THIS WEEK</p>
+        <div class="sd-perf-row">
+          <div class="sd-perf-stat">
+            <span class="sd-perf-num" id="sd-comp-count" style="color:var(--orange)">—</span>
+            <span class="sd-perf-lbl">Complaints</span>
+          </div>
+          <div class="sd-perf-stat">
+            <span class="sd-perf-num" id="sd-compli-count" style="color:var(--blue)">—</span>
+            <span class="sd-perf-lbl">Compliments</span>
+          </div>
+          <div class="sd-perf-stat">
+            <span class="sd-perf-num" id="sd-sugg-count" style="color:var(--green)">—</span>
+            <span class="sd-perf-lbl">Suggestions</span>
+          </div>
+        </div>
+
+        <!-- Bar chart rows -->
+        <div class="sd-bar-list" id="sd-bar-list"></div>
+
+        <!-- Attention banner -->
+        <div class="sd-attention-box hidden" id="sd-attention-box">
+          <span class="sd-attention-icon">⚠</span>
+          <div>
+            <p class="sd-attention-title">Attention needed</p>
+            <p class="sd-attention-desc" id="sd-attention-desc"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent feedback mentioning this staff -->
+      <div class="detail-card" style="margin-top:12px;">
+        <p class="detail-section-label" style="margin-bottom:14px;">RECENT FEEDBACK MENTIONING <span id="sd-firstname">STAFF</span></p>
+        <div id="sd-feedback-list">
+          <div class="empty-state" style="padding:16px 0;">
+            <p class="empty-desc">Loading feedback…</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LOGOUT MODAL ═══════════ -->
+<div id="logout-modal" class="modal-overlay hidden" onclick="App.hideLogoutModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+    </div>
+    <h3 class="modal-title">Log Out</h3>
+    <p class="modal-desc">Are you sure you want to log out of GuestPulse?</p>
+    <button class="modal-confirm-btn" onclick="App.logout()">LOG OUT</button>
+    <button class="modal-cancel-btn" onclick="App.hideLogoutModal()">Cancel</button>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
