@@ -182,27 +182,31 @@ export function searchStaffScreen() {
 export async function addStaffFromScreen() {
   const nameEl = document.getElementById('ss-staff-name');
   const roleEl = document.getElementById('ss-staff-role');
+  const numberE1 = document.getElementById('ss-staff-number');
   const btnEl  = document.getElementById('ss-add-btn');
 
   const fullname = nameEl?.value.trim();
   const role     = roleEl?.value;
+  const phoneNumber = numberE1?.value;
 
   hideErr('staff-screen-err');
 
   if (!fullname) { showErr('staff-screen-err', 'Please enter a staff name.'); return; }
   if (!role)     { showErr('staff-screen-err', 'Please select a role.');       return; }
+  if (!phoneNumber) { showErr('staff-screen-err', 'Please enter a staff number.'); return; }
 
   if (btnEl) { btnEl.disabled = true; btnEl.textContent = 'Adding…'; }
 
   try {
     const data = await apiFetch('/auth/staff', {
       method: 'POST',
-      body:   JSON.stringify({ fullname, role }),
+      body:   JSON.stringify({ fullname, role, phoneNumber }),
     });
 
     state.staffList.push(data.data);
     if (nameEl) nameEl.value = '';
     if (roleEl) roleEl.value = '';
+    if (numberE1) numberE1.value = '';
 
     renderStaffScreen();
     updateStaffStats();

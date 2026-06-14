@@ -22,19 +22,22 @@ export async function fetchStaff() {
 export async function addStaffMember() {
   const fullname = document.getElementById('staff-name-input').value.trim();
   const role     = document.getElementById('staff-role-input').value;
+  const phoneNumber     = document.getElementById('staff-number-input').value;
   if (!fullname)            { showErr('ob2-err', 'Please enter a staff name.'); return; }
   if (!role || role === '') { showErr('ob2-err', 'Please select a role.'); return; }
+  if (!phoneNumber || phoneNumber === '') { showErr('ob2-err', 'Please enter a phone number.'); return; }
   hideErr('ob2-err');
   try {
     const data = await apiFetch('/auth/staff', {
       method: 'POST',
-      body: JSON.stringify({ fullname, role }),
+      body: JSON.stringify({ fullname, role, phoneNumber }),
     });
     state.staffList.push(data.data);
     renderStaffList();
     renderSettingsStaffList();
     document.getElementById('staff-name-input').value = '';
     document.getElementById('staff-role-input').value = '';
+    document.getElementById('staff-number-input').value = '';
   } catch (err) {
     showErr('ob2-err', err.message || 'Could not add staff. Please try again.');
   }
@@ -56,17 +59,20 @@ export async function removeStaff(id) {
 export async function addStaffFromSettings() {
   const fullname = document.getElementById('settings-staff-name').value.trim();
   const role     = document.getElementById('settings-staff-role').value;
+  const phoneNumber     = document.getElementById('settings-staff-number').value;
   if (!fullname)            { showErr('settings-staff-err', 'Please enter a staff name.'); return; }
   if (!role || role === '') { showErr('settings-staff-err', 'Please select a role.'); return; }
+  if (!phoneNumber || phoneNumber === '') { showErr('settings-staff-err', 'Please enter a phone number.'); return; }
   hideErr('settings-staff-err');
   try {
     await apiFetch('/auth/staff', {
       method: 'POST',
-      body: JSON.stringify({ fullname, role }),
+      body: JSON.stringify({ fullname, role, phoneNumber }),
     });
     await fetchStaff();
     document.getElementById('settings-staff-name').value = '';
     document.getElementById('settings-staff-role').value = '';
+    document.getElementById('settings-staff-number').value = '';
     renderSettingsStaffList();
     renderStaffList();
   } catch (err) {
@@ -99,6 +105,7 @@ export function renderStaffList() {
       <div class="staff-info">
         <p class="staff-name">${s.fullname}</p>
         <p class="staff-role">${s.role}</p>
+        <p class="staff-number">${s.phoneNumber}</p>
       </div>
       <button class="staff-remove" onclick="App.removeStaff('${sid}')">✕</button>
     </div>`;
@@ -121,6 +128,7 @@ export function renderSettingsStaffList() {
       <div class="staff-info">
         <p class="staff-name">${s.fullname}</p>
         <p class="staff-role">${s.role}</p>
+        <p class="staff-number">${s.phoneNumber}</p>
       </div>
       <button class="staff-remove" onclick="App.removeStaffFromSettings('${sid}')">✕</button>
     </div>`;

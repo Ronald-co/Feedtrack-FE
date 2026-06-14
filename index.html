@@ -256,6 +256,10 @@
             </select>
             <span class="sel-arrow">▾</span>
           </div>
+        <div class="field-group">
+          <label class="field-label">PHONE NUMBER</label>
+          <input type="text" id="staff-number-input" class="field-input" placeholder="Staff member's number"/>
+        </div>
         </div>
         <button class="btn-outline-dashed" onclick="App.addStaffMember()">+ Add Staff Member</button>
       </div>
@@ -741,6 +745,11 @@
               </select>
               <span class="sel-arrow">▾</span>
             </div>
+            <br>
+             <div class="field-group">
+            <label class="field-label">PHONE NUMBER</label>
+            <input type="text" id="settings-staff-number" class="field-input" placeholder="Staff member's number"/>
+          </div>
           </div>
           <div id="settings-staff-err" class="err-msg hidden"></div>
           <button class="btn-outline-dashed" onclick="App.addStaffFromSettings()">+ Add Staff Member</button>
@@ -928,6 +937,8 @@
                 onclick="App.setStaffRoleFilter('front desk', this)">Front Desk</button>
         <button class="filter-tab" data-role="housekeeping"
                 onclick="App.setStaffRoleFilter('housekeeping', this)">Housekeeping</button>
+        <button class="filter-tab" data-role="security"
+                onclick="App.setStaffRoleFilter('security', this)">Security</button>
       </div>
 
       <!-- Error / success messages -->
@@ -961,6 +972,12 @@
             </select>
             <span class="sel-arrow">▾</span>
           </div>
+          <br>
+          <div class="field-group">
+          <label class="field-label">PHONE NUMBER</label>
+          <input type="text" id="ss-staff-number" class="field-input"
+                 placeholder="Staff member's number"/>
+        </div>
         </div>
         <button id="ss-add-btn" class="btn-primary" onclick="App.addStaffFromScreen()">
           + Add Staff Member
